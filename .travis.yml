@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t terenian/complex-test -f ./client/Dockerfile.dev ./client
+script:
+  - docker run -e CI=true terenian/complex-test npm test
+
+after_success:
+  - docker build -t terenian/complex-client ./client
+  - docker build -t terenian/complex-server ./server
+  - docker build -t terenian/complex-nginx ./nginx
+  - docker build -t terenian/complex-worker ./worker
+  # Log in to Docker CLI
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push images to Docker Hub
+  - docker push terenian/complex-client
+  - docker push terenian/complex-server
+  - docker push terenian/complex-nginx
+  - docker push terenian/complex-worker
