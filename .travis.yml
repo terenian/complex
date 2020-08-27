@@ -19,3 +19,16 @@ after_success:
   - docker push terenian/complex-server
   - docker push terenian/complex-nginx
   - docker push terenian/complex-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-3"
+  app: "complex-docker"
+  env: "ComplexDocker-env"
+  bucket_name: "elasticbeanstalk-eu-west-3-465065747217"
+  bucket_path: "complex-docker"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+language: generic
