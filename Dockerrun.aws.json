@@ -1,0 +1,53 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name" : "client",
+      "image" : "terenian/complex-client",
+      "hostname" : "client",
+      "essential" : false
+    },
+    {
+      "name" : "server",
+      "image" : "terenian/complex-server",
+      "hostname" : "api",
+      "essential" : false
+    },
+    {
+      "name" : "worker",
+      "image" : "terenian/complex-worker",
+      "hostname" : "worker",
+      "essential" : false
+    },
+    {
+      "name" : "nginx",
+      "image" : "terenian/complex-nginx",
+      "hostname" : "nginx",
+      "essential" : true,
+      "portMappings": [
+        {
+          "hostPort" : 80,
+          "containerPort" : 80
+        }
+      ],
+      "links" : [
+        "client",
+        "server"
+      ]
+    },
+    {
+      "name" : "postgres",
+      "image" : "postgres",
+      "hostname" : "postgres",
+      "essential" : false
+    },
+    {
+      "name" : "redis",
+      "image" : "redis",
+      "hostname" : "redis",
+      "essential" : false
+    }
+  ]
+
+
+}
